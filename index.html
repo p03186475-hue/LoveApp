@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Letter For You ❤️</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&display=swap');
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Padauk', sans-serif;
+            background: linear-gradient(135deg, #ffe6e6, #ffccd5);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .floating-symbol {
+            position: absolute;
+            animation: fall linear forwards;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) translateX(0); opacity: 1; }
+            100% { transform: translateY(110vh) translateX(20px); opacity: 0; }
+        }
+
+        /* Envelope Screen */
+        #envelope-screen {
+            text-align: center;
+            cursor: pointer;
+            z-index: 20;
+            transition: transform 0.3s ease;
+        }
+
+        #envelope-screen:hover {
+            transform: scale(1.05);
+        }
+
+        .envelope-box {
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(239, 68, 68, 0.2);
+            border: 2px solid #ffb3c1;
+            display: inline-block;
+        }
+
+        .envelope-icon {
+            font-size: 60px;
+            margin-bottom: 10px;
+        }
+
+        .envelope-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #d90429;
+            margin-bottom: 5px;
+        }
+
+        .envelope-sub {
+            font-size: 0.95rem;
+            color: #6b7280;
+        }
+
+        /* Main App Card */
+        #main-screen {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 340px;
+            width: 90%;
+            padding: 24px 20px;
+            z-index: 10;
+            border: 1px solid #ffe4e6;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #image-container {
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 150px;
+        }
+
+        #gif {
+            max-width: 140px;
+            max-height: 140px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+            animation: float 2s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        #question {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 20px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #btn-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+
+        #yes-btn {
+            background-color: #22c55e;
+            color: white;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 9999px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(34, 197, 94, 0.3);
+        }
+
+        #no-btn {
+            background-color: #ef4444;
+            color: white;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 9999px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3);
+        }
+
+        .yay-text {
+            color: #db2777;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="hearts-container"></div>
+
+    <!-- 1. Envelope Screen -->
+    <div id="envelope-screen" onclick="openEnvelope()">
+        <div class="envelope-box">
+            <div class="envelope-icon">💌</div>
+            <div class="envelope-title">A Special Letter For You</div>
+            <div class="envelope-sub">To: အလှလေးရေ ❤️ (နှိပ်၍ဖွင့်ပါ)</div>
+        </div>
+    </div>
+
+    <!-- 2. Main Question Screen -->
+    <div id="main-screen">
+        <div id="image-container">
+            <img id="gif" src="1.gif" alt="Sticker">
+        </div>
+        
+        <h1 id="question">အလှလေးရေပြန်ကြိုက်ပါလား? 💔</h1>
+
+        <div id="btn-group">
+            <button id="yes-btn" onclick="handleYes()">YES ❤️</button>
+            <button id="no-btn" onclick="handleNo()">No</button>
+        </div>
+    </div>
+
+    <script>
+        function openEnvelope() {
+            document.getElementById("envelope-screen").style.display = "none";
+            document.getElementById("main-screen").style.display = "block";
+        }
+
+        // No ကို နှိပ်ရင် ပြောင်းမယ့် စာသား ၇ မျိုး
+        const texts = [
+            "ချစ်လိုက်ပါ 🥺",
+            "ချစ်ရင်မုန့်တွေဝယ်ကျွေးမှာ 😁😗",
+            "လူကိုလဲစားရမှာနော် 🫣🤭",
+            "လက်ခံလိုက်ပါ 💔",
+            "မငြင်းပါနဲ့ 🥺",
+            "ငိုတော့မယ် 💔",
+            "Just say yes 🥺"
+        ];
+
+        // No ကို နှိပ်ရင် အစဉ်လိုက် ပြောင်းမယ့် ပုံများ (2.gif မှ 8.gif အထိ)
+        const stickers = [
+            "2.gif",
+            "3.gif",
+            "4.gif",
+            "5.gif",
+            "6.gif",
+            "7.gif",
+            "8.gif"
+        ];
+
+        let noClickCount = 0;
+        let yesScale = 1;
+        let noScale = 1;
+
+        function handleNo() {
+            const questionEl = document.getElementById("question");
+            const gifEl = document.getElementById("gif");
+            const yesBtn = document.getElementById("yes-btn");
+            const noBtn = document.getElementById("no-btn");
+
+            if (noClickCount < texts.length) {
+                questionEl.innerText = texts[noClickCount];
+                gifEl.src = stickers[noClickCount];
+                
+                yesScale += 0.22;
+                noScale -= 0.12;
+                
+                yesBtn.style.transform = `scale(${yesScale})`;
+                
+                noClickCount++;
+
+                // No တစ်ခါနှိပ်တိုင်း အသည်းကွဲပုံ (💔) ခဏထွက်မည်
+                showSymbols("💔", 12);
+
+                if (noClickCount === texts.length) {
+                    noBtn.style.display = "none"; // နောက်ဆုံးအကြိမ်ရောက်ရင် No ခလုတ် ပျောက်မည်
+                } else {
+                    noScale = Math.max(0.3, noScale);
+                    noBtn.style.transform = `scale(${noScale})`;
+                }
+            }
+        }
+
+        function handleYes() {
+            const questionEl = document.getElementById("question");
+            const gifEl = document.getElementById("gif");
+            const btnGroup = document.getElementById("btn-group");
+
+            // YES နှိပ်ရင် ပေါ်မယ့် စာသားအသစ်နဲ့ hug.gif ပုံ
+            questionEl.innerText = "okok ဒီညလာခိုးတော့မယ်နော်အာပေတူးလေး 🤭😘";
+            gifEl.src = "hug.gif";
+            btnGroup.innerHTML = '<span class="yay-text">💖 YAY! 💖</span>';
+
+            // YES နှိပ်ရင် အသည်းပုံအမှန် (❤️) တွေ အမြဲတမ်း ပျံကျနေမည်
+            startContinuousHearts();
+        }
+
+        function showSymbols(symbol, count) {
+            const container = document.getElementById("hearts-container");
+            for (let i = 0; i < count; i++) {
+                const item = document.createElement("div");
+                item.classList.add("floating-symbol");
+                item.innerHTML = symbol;
+                item.style.left = Math.random() * 100 + "vw";
+                item.style.animationDuration = (Math.random() * 2 + 1.5) + "s";
+                item.style.fontSize = (Math.random() * 20 + 15) + "px";
+                container.appendChild(item);
+                setTimeout(() => item.remove(), 3500);
+            }
+        }
+
+        function startContinuousHearts() {
+            const container = document.getElementById("hearts-container");
+            setInterval(() => {
+                const heart = document.createElement("div");
+                heart.classList.add("floating-symbol");
+                heart.innerHTML = "❤️";
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+                heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+                container.appendChild(heart);
+                setTimeout(() => heart.remove(), 5000);
+            }, 300);
+        }
+    </script>
+</body>
+</html>
